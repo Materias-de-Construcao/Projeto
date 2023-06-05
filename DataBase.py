@@ -74,16 +74,40 @@ def Insert ():
 
 def Delete():
     cursorBD = conectando.cursor()
-    idProduto = '1'
-    while idProduto != '0':
+    idProduto = 1
+    while idProduto != 0:
         idProduto = int(input(F"Digite o ID do produto que deseja excluir [0 para encerrar]: "))
-        if idProduto == 0:
-            break
+        if idProduto != 0:
+            resultado = cursorBD.execute(f"SELECT *FROM Mat.Produto where codProduto = ?",idProduto)
+            linha = resultado.fetchall()
+            if len(linha) == 0:
+                print (F"Houve um erro  ao pesquisar")
+            else:
+                print (5* '=-','Encontramos o registro',5*'-=')
+                idProd = linha[0][0]
+                nomeDoProd = linha[0][1]
+                descricaoProd = linha[0][2]
+                preco  = linha[0][3]
+                qntEstoque  = linha[0][4]
+                print (F"Código do protudo: {idProd}")
+                print (F"Nome do protudo: {nomeDoProd}")
+                print (F"Descrição do produto: {descricaoProd}")
+                print (F"Preço do produto: {preco}")
+                print (F"Quantidade em estoque: {qntEstoque}")
+                confirmar = input(F"Confirme a Exclusão [s/n] ")
+                if confirmar in 'nN':
+                    print (F"Ok! Cancelando operação")
+                    menu()
+                else:
+                    try:
+                        cursorBD.execute("delete from mat.Produto where codProduto = ?",idProduto)
+                    except:
+                        input (F"Erro tente novamente [ENTER] para menu  ")
+                        menu()
         else:
-            resultado = cursorBD.execute("SELECT *FROM Mat.Produto where codProduto = ?", idProduto)
-
-
-
+            input(f"Erro!! [ENTER] para menu  ")
+            menu()
+    cursorBD.commit()
 
             
 def List():
