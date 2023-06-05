@@ -75,9 +75,9 @@ def Insert ():
 
 def Delete():
     cursorBD = conectando.cursor()
-    idProduto = 1
-    while idProduto != 0:
-        idProduto = int(input(F"Digite o ID do produto que deseja excluir [0 para encerrar]: "))
+    idProduto = '1'
+    while idProduto != '0':
+        idProduto = (input(F"Digite o ID do produto que deseja excluir [0 para encerrar]: "))
         if idProduto == 0:
             break
         else:
