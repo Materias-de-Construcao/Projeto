@@ -38,15 +38,12 @@ def selecionar (opcao):
         case '4':
             Insert()
         case '2':
-            print ('del')
             Delete ()
         case '3':
-            print (f"Alter")
-            #Alter()
+            Alter()
         case '1':
             List()
         case '0':
-            print (F"Saindo")
             quit()
         case _:
             print (F"Opção não existente")
@@ -85,10 +82,12 @@ def Delete():
                 print (F"Houve um erro  ao pesquisar")
             else:
                 print (5* '=-','Encontramos o registro',5*'-=')
-                nomeDoProd = linha[0][0]
-                descricaoProd = linha[0][1]
-                preco  = linha[0][2]
-                qntEstoque  = linha[0][3]
+                idProd = linha[0][0]
+                nomeDoProd = linha[0][1]
+                descricaoProd = linha[0][2]
+                preco  = linha[0][3]
+                qntEstoque  = linha[0][4]
+                print (F"Código do protudo: {idProd}")
                 print (F"Nome do protudo: {nomeDoProd}")
                 print (F"Descrição do produto: {descricaoProd}")
                 print (F"Preço do produto: {preco}")
@@ -104,11 +103,11 @@ def Delete():
                         print (F"Erro tente novamente")
                         menu()
         else:
-            print (F"Houve um erro ao deletar o produto com o id {idProduto}")
+            menu()
     cursorBD.commit()
 
-# def Alter():
-
+def Alter():
+    print (F" ")
 def List():
     dataframe = 0
     cursorBD = conectando.cursor()
