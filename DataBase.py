@@ -41,8 +41,7 @@ def selecionar (opcao):
             print ('del')
             Delete ()
         case '3':
-            print (f"Alter")
-            #Alter()
+            Alter()
         case '1':
             List()
         case '0':
@@ -77,12 +76,76 @@ def Delete():
     cursorBD = conectando.cursor()
     idProduto = '1'
     while idProduto != '0':
-        idProduto = (input(F"Digite o ID do produto que deseja excluir [0 para encerrar]: "))
+        idProduto = int(input(F"Digite o ID do produto que deseja excluir [0 para encerrar]: "))
         if idProduto == 0:
             break
         else:
             resultado = cursorBD.execute("SELECT *FROM Mat.Produto where codProduto = ?", idProduto)
-# def Alter():
+def Alter():
+    cursorBD = conectando.cursor()
+    nomeProduto = 1
+
+    while nomeProduto != 0:
+        nomeProduto = int(input("Digite o ID do produto que deseja alterar: [0 - Terminar] "))
+        if nomeProduto != 0:
+
+            result = cursorBD.execute(
+                    'SELECT NomeProd, Descrição, Preço, QntEstoque  '+\
+                    ' FROM  Mat.Produto '+\
+                    ' WHERE NomeProd = ?', nomeProduto)
+            registros = result.fetchall()
+            if len(registros) == 0:
+                print("Departamento não encontrado.")
+            else:
+                print("Registro encontrado:")
+                print(registros)
+                idProduto = registros[0][0]
+                nomeProduto = registros[0][1]
+                descricao = registros[0][2]      #lista = [[nomeProd,descricao,preco,qntEstoque]]
+                preco = registros[0][3]
+                qntEstoque = registros[0][4]
+
+                print("ID do produto: "+idProduto)
+                print("Nome do Produto: "+nomeProduto)
+                print("descricao: "+descricao)
+                print("preço: "+preco)
+                print("Quantidade no Estoque: "+qntEstoque)
+
+                nomeProduto = input("Novo nome do produto: ")
+                descricao = input("Nova descrição do produto: ")
+                preco = input("Novo preço do produto: ")
+                qntEstoque = input("Quantidade de estoque do novo produto: ")
+
+                if idProduto == "":
+                    idProduto = registros[0][0]
+
+                if nomeProduto == "":  
+                     nomeProduto = registros[0][1]    
+                     
+                if descricao == "":   
+                    descricao = registros[0][2]   
+                    
+                if preco == "":   
+                    preco = registros[0][3]  
+              
+                if qntEstoque == "":
+                    qntEstoque = registros[0][4]
+
+                        
+            sComando = "Update Mat.Produto " +\
+                       "       set codProduto = ?, nomeProd = ?, Descrição = ?,"+\
+                       "           Preço = ?, QntEstoque "+\
+                       " where  = ? "
+               
+            try:       
+                cursorBD.execute(sComando, idProduto, nomeProduto, descricao, preco, qntEstoque)
+            except:     # em caso de erro
+                print("Não foi possível incluir. Pode haver depto repetido.")
+
+    cursorBD.commit()
+    
+
+
 
 def List():
     dataframe = 0
