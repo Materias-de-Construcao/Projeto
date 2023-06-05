@@ -100,9 +100,10 @@ def Delete():
                     try:
                         cursorBD.execute("delete from mat.Produto where codProduto = ?",idProduto)
                     except:
-                        print (F"Erro tente novamente")
+                        input (F"Erro tente novamente [ENTER] para menu  ")
                         menu()
         else:
+            input(f"Erro!! [ENTER] para menu  ")
             menu()
     cursorBD.commit()
 
